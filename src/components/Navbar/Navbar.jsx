@@ -21,7 +21,7 @@ const Navbar = () => {
 		</>
 	);
 	return (
-		<section className="bg-[#FEFEFD] shadow-sm py-3 md:py-5">
+		<section className="bg-[#FEFEFD] shadow-sm py-3 md:py-5 sticky top-0 z-50">
 			<div className="container">
 				<div className="navbar min-h-0 p-0">
 					<div className="navbar-start">
