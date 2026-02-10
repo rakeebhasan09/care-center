@@ -51,13 +51,13 @@ const Navbar = () => {
 						<div className="flex items-center gap-3">
 							<Link
 								href={"/login"}
-								className="btn btn-primary text-base"
+								className="btn btn-primary text-base border"
 							>
 								Login
 							</Link>
 							<Link
 								href={"/register"}
-								className="btn btn-primary btn-outline text-base hidden md:flex"
+								className="btn btn-primary btn-outline text-base hidden md:flex border"
 							>
 								Register
 							</Link>

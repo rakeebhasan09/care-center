@@ -1,4 +1,5 @@
 import { ArrowRight, Shield, Clock, Heart } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
@@ -9,14 +10,14 @@ const HeroSection = () => {
 		{ icon: Heart, text: "Trusted by 10K+ Families" },
 	];
 	return (
-		<section className="bg-hero-gradient py-10 md:py-16 lg:py-24">
+		<section className="bg-hero-gradient section-padding">
 			<div className="container">
 				<div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 					{/* Left Content */}
 					<div className="space-y-8 animate-slide-up">
 						<div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium">
 							<Heart className="w-4 h-4" />
-							<span>Bangladesh's #1 Care Platform</span>
+							<span>Bangladesh&apos;s #1 Care Platform</span>
 						</div>
 						<h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-(--foreground) leading-tight">
 							Caring for Your <br />
@@ -63,6 +64,49 @@ const HeroSection = () => {
 									</span>
 								</div>
 							))}
+						</div>
+					</div>
+
+					{/* Right Content - Image */}
+					<div className="relative animate-fade-in lg:pl-8">
+						<div className="relative">
+							<div className="absolute -inset-4 bg-linear-to-br from-primary/20 to-(--secondary)/20 rounded-3xl blur-2xl" />
+							<Image
+								width={800}
+								height={400}
+								src="https://images.unsplash.com/photo-1516627145497-ae6968895b74?w=600&h=700&fit=crop"
+								alt="Caring for loved ones"
+								className="relative rounded-3xl shadow-2xl w-full object-cover aspect-4/5"
+							/>
+
+							{/* Floating Card */}
+							<div className="absolute -bottom-6 -left-6 bg-[#F8F6F6] rounded-2xl p-4 animate-float">
+								<div className="flex items-center gap-3">
+									<div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center">
+										<Shield className="w-6 h-6 text-primary" />
+									</div>
+									<div>
+										<p className="font-semibold text-(--foreground)">
+											100% Verified
+										</p>
+										<p className="text-sm text-(--muted-foreground)">
+											Background checked
+										</p>
+									</div>
+								</div>
+							</div>
+
+							{/* Stats Card */}
+							<div className="absolute -top-4 -right-4 bg-[#F8F6F6] rounded-2xl p-4">
+								<div className="text-center">
+									<p className="text-3xl font-bold text-primary">
+										10K+
+									</p>
+									<p className="text-sm text-(--muted-foreground)">
+										Happy Families
+									</p>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
