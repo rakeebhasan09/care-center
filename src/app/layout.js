@@ -1,7 +1,6 @@
 import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/Navbar/Navbar";
-import Footer from "@/components/Footer/Footer";
+import LayoutWrapper from "@/components/LayoutWrapper/LayoutWrapper";
 
 const jakarta = Plus_Jakarta_Sans({
 	subsets: ["latin"],
@@ -16,9 +15,8 @@ export default function RootLayout({ children }) {
 	return (
 		<html lang="en" data-theme="light">
 			<body className={`${jakarta.className} antialiased`}>
-				<Navbar />
-				<main className="min-h-[calc(100vh-585px)]">{children}</main>
-				<Footer />
+				{/* LayoutWrapper decides when to show Navbar/Footer */}
+				<LayoutWrapper>{children}</LayoutWrapper>
 			</body>
 		</html>
 	);
