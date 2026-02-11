@@ -72,8 +72,8 @@
 	--muted: hsl(30, 30%, 94%);
 	--muted-foreground: hsl(220, 10%, 45%);
 
-	--card: 0 0% 100%;
-	--card-foreground: 220 20% 15%;
+	--card: hsl(0, 0%, 100%);
+	--card-foreground: hsl(220, 20%, 15%);
 
 	/* Base */
 	--color-base-100: oklch(100% 0 0);
