@@ -50,12 +50,12 @@ const BookingPage = ({ params }) => {
 					</p>
 				</div>
 
-				<div className="grid lg:grid-cols-3 gap-8">
+				<div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
 					{/* Form */}
 					<div className="lg:col-span-2 space-y-8">
 						{/* Step Indicators */}
 						{/* ================= Step Tabs ================= */}
-						<div className="flex gap-3 mb-8">
+						<div className="flex flex-wrap gap-3 mb-8">
 							{[
 								{
 									label: "Duration",
@@ -106,7 +106,7 @@ const BookingPage = ({ params }) => {
 												Duration Type
 											</label>
 											<select
-												defaultValue="Pick Duration"
+												defaultValue="hours"
 												className="select w-full border border-(--border) outline-none"
 												onChange={(e) =>
 													setDurationType(
@@ -114,9 +114,6 @@ const BookingPage = ({ params }) => {
 													)
 												}
 											>
-												<option disabled={true}>
-													Pick Duration
-												</option>
 												<option value={"hours"}>
 													Hours
 												</option>
