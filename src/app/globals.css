@@ -11,6 +11,7 @@
 	);
 	--card: hsl(0, 0%, 100%);
 	--card-shadow: 0 4px 20px -4px hsl(220 20% 15% / 0.08);
+	--card-hover-shadow: 0 8px 30px -4px hsl(220 20% 15% / 0.12);
 	--border: hsl(30, 20%, 88%);
 }
 
@@ -22,6 +23,14 @@
 
 	.section-padding {
 		@apply py-16 md:py-24;
+	}
+
+	.card-shadow {
+		box-shadow: var(--card-shadow);
+	}
+
+	.card-hover-shadow {
+		box-shadow: var(--card-hover-shadow);
 	}
 }
 
@@ -87,4 +96,8 @@
 	padding-left: 15px;
 	padding-right: 15px;
 	margin: auto;
+}
+
+button {
+	cursor: pointer;
 }

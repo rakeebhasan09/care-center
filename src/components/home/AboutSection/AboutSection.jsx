@@ -62,14 +62,14 @@ const AboutSection = () => {
 						</div>
 
 						<h2 className="text-3xl md:text-4xl font-bold text-(--foreground)">
-							We Make Caregiving{" "}
+							We Make Caregiving
 							<span className="text-primary">
 								Simple & Trusted
 							</span>
 						</h2>
 
 						<p className="text-(--muted-foreground) leading-relaxed">
-							Care.xyz is Bangladesh's premier caregiving
+							Care.xyz is Bangladesh&apos;s premier caregiving
 							platform, connecting families with verified,
 							compassionate caregivers. Whether you need a
 							babysitter, elderly care, or special assistance, we
