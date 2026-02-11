@@ -6,7 +6,7 @@ import React from "react";
 const ServicesSection = () => {
 	const services = [
 		{
-			id: "baby-care",
+			id: 1,
 			icon: Baby,
 			title: "Baby Care",
 			titleBn: "শিশু যত্ন",
@@ -23,7 +23,7 @@ const ServicesSection = () => {
 			color: "bg-pink-50",
 		},
 		{
-			id: "elderly-care",
+			id: 2,
 			icon: HeartPulse,
 			title: "Elderly Care",
 			titleBn: "বয়স্ক সেবা",
@@ -40,7 +40,7 @@ const ServicesSection = () => {
 			color: "bg-blue-50",
 		},
 		{
-			id: "special-care",
+			id: 3,
 			icon: Stethoscope,
 			title: "Special Care",
 			titleBn: "বিশেষ সেবা",
@@ -133,7 +133,7 @@ const ServicesSection = () => {
 										))}
 									</ul>
 
-									<Link href={`/service/${service.id}`}>
+									<Link href={`/services/${service.id}`}>
 										<button className="w-full group/btn inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-semibold transition-all duration-300 bg-primary text-(--primary-foreground) hover:bg-primary/90 shadow-md hover:shadow-lg hover:scale-[1.02] h-11 px-5 py-2">
 											View Details
 											<ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
