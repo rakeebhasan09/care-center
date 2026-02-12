@@ -5,12 +5,14 @@ import {
 	Clock,
 	MapPin,
 	CreditCard,
-	Icon,
 	HeartPulse,
 	Plus,
 	Minus,
+	CircleCheck,
+	AlertCircle,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import upazilas from "../../../data/areaByDistrict.json";
 import { use, useState } from "react";
 
 const STEPS = {
@@ -19,16 +21,114 @@ const STEPS = {
 	CONFIRM: 3,
 };
 
+const divisions = [
+	"Dhaka",
+	"Chittagong",
+	"Rajshahi",
+	"Khulna",
+	"Barishal",
+	"Sylhet",
+	"Rangpur",
+	"Mymensingh",
+];
+
+const districtsByDivision = {
+	Dhaka: [
+		"Dhaka",
+		"Gazipur",
+		"Narayanganj",
+		"Tangail",
+		"Manikganj",
+		"Munshiganj",
+		"Narsingdi",
+		"Faridpur",
+	],
+	Chittagong: [
+		"Chittagong",
+		"Cox's Bazar",
+		"Comilla",
+		"Rangamati",
+		"Bandarban",
+		"Khagrachhari",
+		"Feni",
+	],
+	Rajshahi: [
+		"Rajshahi",
+		"Bogra",
+		"Pabna",
+		"Sirajganj",
+		"Natore",
+		"Nawabganj",
+		"Joypurhat",
+		"Naogaon",
+	],
+	Khulna: [
+		"Khulna",
+		"Jessore",
+		"Satkhira",
+		"Bagerhat",
+		"Narail",
+		"Magura",
+		"Kushtia",
+		"Meherpur",
+	],
+	Barishal: [
+		"Barishal",
+		"Patuakhali",
+		"Bhola",
+		"Pirojpur",
+		"Jhalokathi",
+		"Barguna",
+	],
+	Sylhet: ["Sylhet", "Moulvibazar", "Habiganj", "Sunamganj"],
+	Rangpur: [
+		"Rangpur",
+		"Dinajpur",
+		"Gaibandha",
+		"Kurigram",
+		"Lalmonirhat",
+		"Nilphamari",
+		"Panchagarh",
+		"Thakurgaon",
+	],
+	Mymensingh: ["Mymensingh", "Jamalpur", "Netrokona", "Sherpur"],
+};
+
 const BookingPage = ({ params }) => {
 	const { serviceId } = use(params);
 	const router = useRouter();
 	const [activeStep, setActiveStep] = useState(STEPS.DURATION);
 	const [durationType, setDurationType] = useState("hours");
 	const [durationValue, setDurationValue] = useState(1);
+	const [phone, setPhone] = useState("");
+	const [address, setAddress] = useState("");
+
+	const [division, setDivision] = useState("");
+	const [district, setDistrict] = useState("");
+	const [area, setArea] = useState("");
+
+	const areas = upazilas[district];
+
+	const isLocationFormValid =
+		phone.trim().length > 0 && address.trim().length > 0;
 
 	// Price Calculation
 	const multiplier = durationType === "days" ? 8 : 1;
 	const totalCost = 500 * durationValue * multiplier;
+
+	const handleBookingForm = (e) => {
+		e.preventDefault();
+		console.log({
+			durationType,
+			durationValue,
+			division,
+			district,
+			area,
+			phone,
+			address,
+			totalCost,
+		});
+	};
 
 	return (
 		<section className="section-padding bg-[#FCFAF7]">
@@ -88,7 +188,10 @@ const BookingPage = ({ params }) => {
 								);
 							})}
 						</div>
-						<form className="bg-(--card) rounded-2xl p-6 md:p-8 card-shadow animate-fade-in">
+						<form
+							onSubmit={handleBookingForm}
+							className="bg-(--card) rounded-2xl p-6 md:p-8 card-shadow animate-fade-in"
+						>
 							{/* ================= Step 1: Duration ================= */}
 							{activeStep === STEPS.DURATION && (
 								<div className="card">
@@ -186,17 +289,156 @@ const BookingPage = ({ params }) => {
 							)}
 							{/* ================= Step 2: Location ================= */}
 							{activeStep === STEPS.LOCATION && (
-								<div className="card">
-									<h2 className="text-xl font-semibold">
+								<div className="card space-y-4">
+									<h2 className="text-xl font-semibold flex items-center gap-2">
+										<MapPin className="w-5 h-5 text-primary" />
 										Select Location
 									</h2>
 
-									<div className="flex justify-between mt-6">
+									{/* Division and Distric */}
+									<div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+										{/* Division */}
+										<div>
+											<label className="block mb-2">
+												Division
+											</label>
+											<select
+												defaultValue="Select Division"
+												className="select w-full border border-(--border) outline-none"
+												onChange={(e) => {
+													setDivision(e.target.value);
+													setDistrict("");
+												}}
+											>
+												<option disabled={true}>
+													Select Division
+												</option>
+												{divisions.map((division) => (
+													<option
+														key={division}
+														value={division}
+													>
+														{division}
+													</option>
+												))}
+											</select>
+										</div>
+										{/* District */}
+										<div>
+											<label className="block mb-2">
+												District
+											</label>
+											<select
+												defaultValue="Select District"
+												className="select w-full border border-(--border) outline-none"
+												disabled={!division}
+												onChange={(e) => {
+													setDistrict(e.target.value);
+													setArea("");
+												}}
+											>
+												<option disabled={true}>
+													Select District
+												</option>
+												{division &&
+													districtsByDivision[
+														division
+													]?.map((dist) => (
+														<option
+															key={dist}
+															value={dist}
+														>
+															{dist}
+														</option>
+													))}
+											</select>
+										</div>
+									</div>
+
+									{/* Area and Mobile */}
+									<div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+										{/* Area */}
+										<div>
+											<label className="block mb-2">
+												Area / City
+											</label>
+											<select
+												defaultValue="Select Area / City"
+												className="select w-full border border-(--border) outline-none"
+												disabled={!district}
+												onChange={(e) => {
+													setArea(e.target.value);
+												}}
+											>
+												<option disabled={true}>
+													Select Area / City
+												</option>
+												{division &&
+													areas?.map((city) => (
+														<option
+															key={city}
+															value={city}
+														>
+															{city}
+														</option>
+													))}
+											</select>
+										</div>
+										{/* Mobile */}
+										<div className="space-y-2">
+											<label className="block">
+												Contact Number
+											</label>
+											<input
+												type="text"
+												placeholder="Type your phone number"
+												className="w-full border border-(--border) rounded outline-none py-1.5 px-2"
+												required
+												value={phone}
+												onChange={(e) =>
+													setPhone(e.target.value)
+												}
+											/>
+										</div>
+									</div>
+
+									{/* Full Address */}
+									<div className="space-y-2">
+										<label className="block">
+											Full Address
+										</label>
+										<textarea
+											className="w-full border border-(--border) rounded outline-none py-1.5 px-2"
+											name=""
+											placeholder="Type full address."
+											rows={3}
+											required
+											value={address}
+											onChange={(e) =>
+												setAddress(e.target.value)
+											}
+										></textarea>
+									</div>
+
+									{/* Special Instructions */}
+									<div className="space-y-2">
+										<label className="block">
+											Special Instructions (Optional)
+										</label>
+										<textarea
+											className="w-full border border-(--border) rounded outline-none py-1.5 px-2"
+											name=""
+											placeholder="Type Special Instructions."
+											rows={3}
+										></textarea>
+									</div>
+
+									<div className="flex flex-wrap gap-5 mt-6">
 										<button
 											onClick={() =>
 												setActiveStep(STEPS.DURATION)
 											}
-											className="btn-outline"
+											className="btn btn-outline btn-primary border border-primary flex-1 items-center gap-2"
 										>
 											← Back
 										</button>
@@ -205,7 +447,9 @@ const BookingPage = ({ params }) => {
 											onClick={() =>
 												setActiveStep(STEPS.CONFIRM)
 											}
-											className="btn-primary"
+											disabled={!isLocationFormValid}
+											className={`btn btn-primary border border-primary flex-1 items-center gap-2
+		${!isLocationFormValid ? "opacity-50 cursor-not-allowed" : ""}`}
 										>
 											Continue →
 										</button>
@@ -216,13 +460,96 @@ const BookingPage = ({ params }) => {
 							{/* ================= Step 3: Confirm ================= */}
 							{activeStep === STEPS.CONFIRM && (
 								<div className="card">
-									<h2 className="text-xl font-semibold">
+									<h2 className="text-xl font-bold text-(--foreground) mb-6 flex items-center gap-2">
+										<CircleCheck className="w-5 h-5 text-primary" />
 										Confirm Booking
 									</h2>
 
-									<p className="text-gray-500 mt-2">
-										Service ID: {serviceId}
-									</p>
+									<div className="space-y-6">
+										{/* Service Summary */}
+										<div className="flex items-center gap-4 p-4 bg-(--muted) rounded-xl">
+											<div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+												<HeartPulse className="w-6 h-6 text-primary" />
+											</div>
+											<div>
+												<p className="font-semibold text-(--foreground)">
+													Elderly Care
+												</p>
+												<p className="text-sm text-(--muted-foreground)">
+													বয়স্ক সেবা
+												</p>
+											</div>
+										</div>
+										{/* Booking Details */}
+										<div className="space-y-4">
+											<div className="flex justify-between py-2 border-b border-(--border)">
+												<span className="text-(--muted-foreground)">
+													Duration
+												</span>
+												<span className="font-medium text-(--foreground)">
+													{durationValue}{" "}
+													{durationType}
+												</span>
+											</div>
+											<div className="flex justify-between py-2 border-b border-(--border)">
+												<span className="text-(--muted-foreground)">
+													Location
+												</span>
+												<span className="font-medium text-(--foreground) text-right">
+													{area}, {district},
+													{division}
+												</span>
+											</div>
+											<div className="flex justify-between py-2 border-b border-(--border)">
+												<span className="text-(--muted-foreground)">
+													Address
+												</span>
+												<span className="font-medium text-(--foreground) text-right max-w-50">
+													{address}
+												</span>
+											</div>
+											<div className="flex justify-between py-2">
+												<span className="text-lg font-semibold text-(--foreground)">
+													Total Cost
+												</span>
+												<span className="text-2xl font-bold text-primary">
+													৳{totalCost}
+												</span>
+											</div>
+										</div>
+										{/* Notice */}
+										<div className="flex gap-3 p-4 bg-(--secondary)/20 rounded-xl">
+											<AlertCircle className="w-5 h-5 text-(--secondary) shrink-0 mt-0.5" />
+											<p className="text-sm text-(--muted-foreground)">
+												Your booking will be confirmed
+												within 24 hours. You&apos;ll
+												receive a confirmation email
+												with caregiver details.
+											</p>
+										</div>
+									</div>
+								</div>
+							)}
+
+							{activeStep === STEPS.CONFIRM && (
+								<div className="flex flex-wrap gap-5 mt-6">
+									<button
+										onClick={() =>
+											setActiveStep(STEPS.LOCATION)
+										}
+										className="btn btn-outline btn-primary border border-primary flex-1 items-center gap-2"
+									>
+										← Back
+									</button>
+
+									<button
+										onClick={() =>
+											setActiveStep(STEPS.CONFIRM)
+										}
+										className="btn btn-primary border border-primary flex-1 items-center gap-2"
+									>
+										Confirm Booking →
+									</button>
 								</div>
 							)}
 						</form>
