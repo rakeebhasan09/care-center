@@ -16,7 +16,9 @@ const Navbar = () => {
 				<ActiveLink href={"/about"}>About</ActiveLink>
 			</li>
 			<li>
-				<ActiveLink href={"/my-bookings"}>My Bookings</ActiveLink>
+				<ActiveLink href={"/dashboard/my-bookings"}>
+					My Bookings
+				</ActiveLink>
 			</li>
 		</>
 	);

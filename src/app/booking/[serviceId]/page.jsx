@@ -128,6 +128,7 @@ const BookingPage = ({ params }) => {
 			address,
 			totalCost,
 		});
+		router.push("/dashboard/my-bookings");
 	};
 
 	return (
