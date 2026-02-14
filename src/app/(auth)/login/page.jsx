@@ -5,8 +5,12 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { signIn } from "next-auth/react";
+import Swal from "sweetalert2";
+import { useRouter } from "next/navigation";
 
 const LoginPage = () => {
+	const router = useRouter();
 	const [showPassword, setShowPassword] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 	const {
@@ -16,9 +20,26 @@ const LoginPage = () => {
 		formState: { errors },
 	} = useForm();
 
-	const handleLoginForm = (data) => {
-		alert("Login form submitted.");
-		console.log(data);
+	const handleLoginForm = async (data) => {
+		const result = await signIn("credentials", {
+			redirect: false,
+			email: data.email,
+			password: data.password,
+		});
+		if (!result.ok) {
+			Swal.fire({
+				icon: "error",
+				title: "Oops...",
+				text: "Credentials not matched!",
+			});
+		} else {
+			Swal.fire({
+				icon: "success",
+				title: "Yah...",
+				text: "You are Logged In!",
+			});
+			router.push("/");
+		}
 	};
 	return (
 		<div className="min-h-screen flex">

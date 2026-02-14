@@ -2,6 +2,7 @@ import { Heart, Menu, X } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import ActiveLink from "../ActiveLink/ActiveLink";
+import AuthButtons from "../AuthButtons/AuthButtons";
 
 const Navbar = () => {
 	const links = (
@@ -50,20 +51,7 @@ const Navbar = () => {
 						<ul className="menu menu-horizontal p-0">{links}</ul>
 					</div>
 					<div className="navbar-end">
-						<div className="flex items-center gap-3">
-							<Link
-								href={"/login"}
-								className="btn btn-primary text-base border"
-							>
-								Login
-							</Link>
-							<Link
-								href={"/register"}
-								className="btn btn-primary btn-outline text-base hidden md:flex border"
-							>
-								Register
-							</Link>
-						</div>
+						<AuthButtons />
 					</div>
 				</div>
 			</div>

@@ -3,6 +3,7 @@
 import { collections, dbConnect } from "@/lib/dbConnect";
 import bcrypt from "bcryptjs";
 
+// নতুন ইউজার তৈরি করা
 export const postUser = async (payload) => {
 	const { NIDNumber, fullname, mobile, email, password } = payload;
 
@@ -35,5 +36,21 @@ export const postUser = async (payload) => {
 			...result,
 			insertedId: result.insertedId.toString(),
 		};
+	}
+};
+
+// ইউজার লগইন করানো
+export const loginUser = async (payload) => {
+	const { email, password } = payload;
+	if (!email || !password) return null;
+
+	// ইউজার আছে কিনা চেক করা
+	const user = await dbConnect(collections.USERS).findOne({ email });
+	if (!user) return null;
+	const isMatched = await bcrypt.compare(password, user.password);
+	if (isMatched) {
+		return user;
+	} else {
+		return null;
 	}
 };
