@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import upazilas from "../../../data/areaByDistrict.json";
-import { use, useState } from "react";
+import { use, useEffect, useState } from "react";
 
 const STEPS = {
 	DURATION: 1,
@@ -115,6 +115,11 @@ const BookingPage = ({ params }) => {
 	// Price Calculation
 	const multiplier = durationType === "days" ? 8 : 1;
 	const totalCost = 500 * durationValue * multiplier;
+
+	useEffect(() => {
+		document.title =
+			"Book your service Baby Sitting & Elderly Care Service Platform";
+	}, []);
 
 	const handleBookingForm = (e) => {
 		e.preventDefault();

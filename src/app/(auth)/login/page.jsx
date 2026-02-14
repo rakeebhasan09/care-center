@@ -4,10 +4,22 @@ import { ArrowRight, Eye, EyeOff, Heart, Lock, Mail } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
+import { useForm } from "react-hook-form";
 
 const LoginPage = () => {
 	const [showPassword, setShowPassword] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
+	const {
+		register,
+		handleSubmit,
+		watch,
+		formState: { errors },
+	} = useForm();
+
+	const handleLoginForm = (data) => {
+		alert("Login form submitted.");
+		console.log(data);
+	};
 	return (
 		<div className="min-h-screen flex">
 			{/* Left Side - Form */}
@@ -35,7 +47,10 @@ const LoginPage = () => {
 					</div>
 
 					{/* Login Form */}
-					<form className="space-y-6">
+					<form
+						onSubmit={handleSubmit(handleLoginForm)}
+						className="space-y-6"
+					>
 						{/* Email */}
 						<div>
 							<label htmlFor="email" className="mb-2 block">
@@ -44,11 +59,18 @@ const LoginPage = () => {
 							<div className="relative">
 								<Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-(--muted-foreground)" />
 								<input
-									name="email"
 									type="email"
 									placeholder="you@example.com"
 									className="pl-10 w-full py-2 border border-(--border) outline-none"
+									{...register("email", {
+										required: true,
+									})}
 								/>
+								{errors.email?.type === "required" && (
+									<p className="text-red-500 text-xs">
+										Email is required
+									</p>
+								)}
 							</div>
 						</div>
 
@@ -60,11 +82,18 @@ const LoginPage = () => {
 							<div className="relative">
 								<Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
 								<input
-									id="password"
 									type={showPassword ? "text" : "password"}
 									placeholder="Enter your password"
 									className="pl-10 pr-10 w-full py-2 border border-(--border) outline-none"
+									{...register("password", {
+										required: true,
+									})}
 								/>
+								{errors.password?.type === "required" && (
+									<p className="text-red-500 text-xs">
+										Password is required
+									</p>
+								)}
 								<button
 									type="button"
 									onClick={() =>

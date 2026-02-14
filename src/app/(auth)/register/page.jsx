@@ -1,4 +1,5 @@
 "use client";
+import { postUser } from "@/action/server/auth";
 import SocialLoginButtons from "@/components/SocialLoginButtons/SocialLoginButtons";
 import {
 	ArrowRight,
@@ -12,11 +13,36 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import Swal from "sweetalert2";
 
 const RegisterPage = () => {
 	const [showPassword, setShowPassword] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
+	const {
+		register,
+		handleSubmit,
+		reset,
+		formState: { errors },
+	} = useForm();
+	const router = useRouter();
+
+	const handleRegisterForm = async (data) => {
+		const result = await postUser(data);
+		if (result.acknowledged) {
+			Swal.fire({
+				position: "center",
+				icon: "success",
+				title: "Registration Successfull.",
+				showConfirmButton: false,
+				timer: 1500,
+			});
+			reset();
+			router.push("/");
+		}
+	};
 	return (
 		<div className="min-h-screen flex">
 			{/* Left Side - Image */}
@@ -67,67 +93,90 @@ const RegisterPage = () => {
 						</p>
 					</div>
 
-					{/* Login Form */}
-					<form className="space-y-3">
+					{/* Register Form */}
+					<form
+						onSubmit={handleSubmit(handleRegisterForm)}
+						className="space-y-3"
+					>
 						{/* NID Number */}
 						<div>
-							<label htmlFor="email" className="mb-2 block">
-								NID Number
-							</label>
+							<label className="mb-2 block">NID Number</label>
 							<div className="relative">
 								<CreditCard className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-(--muted-foreground)" />
 								<input
-									name="nidNumber"
 									type="text"
 									placeholder="Enter Your NID Number"
 									className="pl-10 w-full py-2 border border-(--border) outline-none"
+									{...register("NIDNumber", {
+										required: true,
+									})}
 								/>
+								{errors.NIDNumber?.type === "required" && (
+									<p className="text-red-500 text-xs">
+										NIDNumber is required
+									</p>
+								)}
 							</div>
 						</div>
 						{/* Name */}
 						<div>
-							<label htmlFor="email" className="mb-2 block">
-								Full Name
-							</label>
+							<label className="mb-2 block">Full Name</label>
 							<div className="relative">
 								<User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-(--muted-foreground)" />
 								<input
-									name="fullname"
 									type="text"
 									placeholder="Write your full name"
 									className="pl-10 w-full py-2 border border-(--border) outline-none"
+									{...register("fullname", {
+										required: true,
+									})}
 								/>
+								{errors.fullname?.type === "required" && (
+									<p className="text-red-500 text-xs">
+										Full Name is required
+									</p>
+								)}
 							</div>
 						</div>
 						{/* Contact */}
 						<div>
-							<label htmlFor="email" className="mb-2 block">
-								Contact Number
-							</label>
+							<label className="mb-2 block">Contact Number</label>
 							<div className="relative">
 								<User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-(--muted-foreground)" />
 								<input
-									name="mobile"
 									type="text"
 									placeholder="Write your Contact Number"
 									className="pl-10 w-full py-2 border border-(--border) outline-none"
+									{...register("mobile", {
+										required: true,
+									})}
 								/>
+								{errors.mobile?.type === "required" && (
+									<p className="text-red-500 text-xs">
+										Contact number is required
+									</p>
+								)}
 							</div>
 						</div>
 
 						{/* Email */}
 						<div>
-							<label htmlFor="email" className="mb-2 block">
-								Email Address
-							</label>
+							<label className="mb-2 block">Email Address</label>
 							<div className="relative">
 								<Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-(--muted-foreground)" />
 								<input
-									name="email"
 									type="email"
 									placeholder="you@example.com"
 									className="pl-10 w-full py-2 border border-(--border) outline-none"
+									{...register("email", {
+										required: true,
+									})}
 								/>
+								{errors.email?.type === "required" && (
+									<p className="text-red-500 text-xs">
+										Email is required
+									</p>
+								)}
 							</div>
 						</div>
 
@@ -139,11 +188,18 @@ const RegisterPage = () => {
 							<div className="relative">
 								<Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
 								<input
-									id="password"
 									type={showPassword ? "text" : "password"}
 									placeholder="Enter your password"
 									className="pl-10 pr-10 w-full py-2 border border-(--border) outline-none"
+									{...register("password", {
+										required: true,
+									})}
 								/>
+								{errors.password?.type === "required" && (
+									<p className="text-red-500 text-xs">
+										Password is required
+									</p>
+								)}
 								<button
 									type="button"
 									onClick={() =>

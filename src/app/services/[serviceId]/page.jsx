@@ -13,6 +13,10 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
+export const metadata = {
+	title: "Service Details",
+};
+
 const ServiceDetailsPage = async ({ params }) => {
 	const { serviceId } = await params;
 	const service = {
