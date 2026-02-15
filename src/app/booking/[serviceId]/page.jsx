@@ -14,6 +14,8 @@ import {
 import { useRouter } from "next/navigation";
 import upazilas from "../../../data/areaByDistrict.json";
 import { use, useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
+import { getSingleService } from "@/action/server/services";
 
 const STEPS = {
 	DURATION: 1,
@@ -106,6 +108,7 @@ const BookingPage = ({ params }) => {
 	const [division, setDivision] = useState("");
 	const [district, setDistrict] = useState("");
 	const [area, setArea] = useState("");
+	const session = useSession();
 
 	const areas = upazilas[district];
 
@@ -132,13 +135,16 @@ const BookingPage = ({ params }) => {
 			phone,
 			address,
 			totalCost,
+			customarName: session.data.user.name,
+			customarEmail: session.data.user.email,
 		});
-		router.push("/dashboard/my-bookings");
+		// router.push("/dashboard/my-bookings");
 	};
 
 	return (
 		<section className="section-padding bg-[#FCFAF7]">
 			<div className="container">
+				{JSON.stringify(session?.data?.user)}
 				{/* Header */}
 				<div className="mb-8">
 					<button

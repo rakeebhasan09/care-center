@@ -3,10 +3,16 @@ import CTASection from "@/components/home/CTASection/CTASection";
 import HeroSection from "@/components/home/HeroSection/HeroSection";
 import ServicesSection from "@/components/home/ServicesSection/ServicesSection";
 import TestimonialsSection from "@/components/home/TestimonialsSection/TestimonialsSection";
+import Test from "@/components/Test/Test";
+import { authOptions } from "@/lib/authOptions";
+import { getServerSession } from "next-auth";
 
-export default function Home() {
+export default async function Home() {
+	const session = await getServerSession(authOptions);
 	return (
 		<>
+			<Test />
+			{JSON.stringify(session)}
 			<HeroSection />
 			<AboutSection />
 			<ServicesSection />

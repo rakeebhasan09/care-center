@@ -1,3 +1,4 @@
+import { getSingleService } from "@/action/server/services";
 import BackButtons from "@/components/buttons/BackButtons";
 import {
 	ArrowRight,
@@ -19,7 +20,9 @@ export const metadata = {
 
 const ServiceDetailsPage = async ({ params }) => {
 	const { serviceId } = await params;
-	const service = {
+	const service = await getSingleService(serviceId);
+	// console.log(singleService);
+	const singleService = {
 		id: serviceId,
 		title: "Baby Care",
 		titleBn: "শিশু যত্ন",
@@ -71,8 +74,8 @@ Whether you need care for a few hours while you run errands, full-day care while
 				<Image
 					width={2000}
 					height={500}
-					src="https://images.unsplash.com/photo-1555252333-9f8e92e65df9?w=400&h=300&fit=crop"
-					alt="{service.title}"
+					src={service.image}
+					alt={service.title}
 					className="absolute inset-0 w-full h-full object-cover"
 				/>
 				<div className="absolute inset-0 bg-linear-to-t from-(--foreground)/80 via-(--foreground)/40 to-transparent" />
@@ -88,10 +91,10 @@ Whether you need care for a few hours while you run errands, full-day care while
 							</div>
 							<div>
 								<h1 className="text-3xl md:text-4xl font-bold text-(--background)">
-									Baby Care
+									{service.title}
 								</h1>
 								<p className="text-(--background)/80">
-									শিশু যত্ন
+									{service.titleBn}
 								</p>
 							</div>
 						</div>
@@ -99,7 +102,7 @@ Whether you need care for a few hours while you run errands, full-day care while
 						<div className="flex flex-wrap items-center gap-4 text-(--background)/90">
 							<div className="flex items-center gap-2">
 								<Clock className="w-4 h-4" />
-								<span>Starting at ৳500/hour</span>
+								<span>Starting at ৳{service.price}/hour</span>
 							</div>
 							<div className="flex items-center gap-2">
 								<Star className="w-4 h-4 fill-(--secondary) text-(--secondary)" />
@@ -240,7 +243,7 @@ Whether you need care for a few hours while you run errands, full-day care while
 									))}
 								</ul>
 								<Link
-									href={`/booking/${service.id}`}
+									href={`/booking/${service._id}`}
 									className="inline-flex items-center justify-center gap-2 whitespace-nowrap font-semibold transition-all duration-300 bg-primary text-(--primary-foreground) hover:bg-primary/90 shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] h-12 rounded-lg px-8 text-base w-full"
 								>
 									Book This Service
