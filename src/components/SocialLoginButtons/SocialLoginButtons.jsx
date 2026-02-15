@@ -1,18 +1,19 @@
 "use client";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import React, { useState } from "react";
 import Swal from "sweetalert2";
 
 const SocialLoginButtons = () => {
 	const [isGoogleLoading, setIsGoogleLoading] = useState(false);
 	const [isGitHubLoading, setIsGitHubLoading] = useState(false);
+	const params = useSearchParams();
 	const router = useRouter();
+	const callbackUrl = params.get("callbackUrl") || "/";
 	const handleGoogleLogin = async () => {
 		setIsGoogleLoading(true);
 		const result = await signIn("google", {
-			redirect: false,
-			callbackUrl: "/",
+			callbackUrl: callbackUrl,
 		});
 		if (result.ok) {
 			Swal.fire({
@@ -20,7 +21,6 @@ const SocialLoginButtons = () => {
 				title: "Yah...",
 				text: "You are Logged In!",
 			});
-			router.push("/");
 		} else {
 			Swal.fire({
 				icon: "error",

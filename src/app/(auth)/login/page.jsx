@@ -7,18 +7,20 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { signIn } from "next-auth/react";
 import Swal from "sweetalert2";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const LoginPage = () => {
-	const router = useRouter();
 	const [showPassword, setShowPassword] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
+	const router = useRouter();
 	const {
 		register,
 		handleSubmit,
 		watch,
 		formState: { errors },
 	} = useForm();
+	const params = useSearchParams();
+	const callbackUrl = params.get("callbackUrl") || "/";
 
 	const handleLoginForm = async (data) => {
 		const result = await signIn("credentials", {
@@ -38,7 +40,7 @@ const LoginPage = () => {
 				title: "Yah...",
 				text: "You are Logged In!",
 			});
-			router.push("/");
+			router.push(callbackUrl);
 		}
 	};
 	return (
