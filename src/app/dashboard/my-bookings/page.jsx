@@ -1,3 +1,4 @@
+"use server";
 import { bookingByUser } from "@/action/server/booking";
 import ActionButtons from "@/components/buttons/ActionButtons";
 import { authOptions } from "@/lib/authOptions";
@@ -12,11 +13,15 @@ import {
 import { getServerSession } from "next-auth";
 import Link from "next/link";
 import React from "react";
+import Swal from "sweetalert2";
 
 const MyBookingPage = async () => {
 	const session = await getServerSession(authOptions);
 	const userEmail = session?.user?.email;
 	const myBookings = await bookingByUser(userEmail);
+
+	// Handle Delete
+
 	return (
 		<section className="section-padding bg-[#FCFAF7] h-full">
 			<div className="container">

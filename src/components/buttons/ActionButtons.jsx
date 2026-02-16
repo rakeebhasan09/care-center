@@ -1,9 +1,29 @@
 "use client";
 import Link from "next/link";
 import React from "react";
+import Swal from "sweetalert2";
 
 const ActionButtons = ({ booking }) => {
-	const { serviceId } = booking;
+	const { serviceId, _id } = booking;
+	const handleDeleteBooking = async (id) => {
+		Swal.fire({
+			title: "Are you sure?",
+			text: `You won't be able to revert this!${id}`,
+			icon: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#3085d6",
+			cancelButtonColor: "#d33",
+			confirmButtonText: "Yes, delete it!",
+		}).then((result) => {
+			if (result.isConfirmed) {
+				Swal.fire({
+					title: "Deleted!",
+					text: "Your file has been deleted.",
+					icon: "success",
+				});
+			}
+		});
+	};
 	return (
 		<div className="flex items-center gap-3">
 			<Link
@@ -13,7 +33,10 @@ const ActionButtons = ({ booking }) => {
 				View Details
 			</Link>
 
-			<button className="px-4 py-2 text-sm font-medium bg-red-500 text-white rounded-lg hover:bg-red-600 transition">
+			<button
+				onClick={() => handleDeleteBooking(_id)}
+				className="px-4 py-2 text-sm font-medium bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
+			>
 				Cancel
 			</button>
 		</div>
