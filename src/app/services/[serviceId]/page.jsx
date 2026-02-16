@@ -21,51 +21,6 @@ export const metadata = {
 const ServiceDetailsPage = async ({ params }) => {
 	const { serviceId } = await params;
 	const service = await getSingleService(serviceId);
-	// console.log(singleService);
-	const singleService = {
-		id: serviceId,
-		title: "Baby Care",
-		titleBn: "শিশু যত্ন",
-		description:
-			"Professional babysitting and childcare services for infants and toddlers. Our caregivers are trained in child development and safety.",
-		longDescription: `Our Baby Care service provides comprehensive childcare solutions for families with infants and toddlers aged 0-5 years. Every caregiver in our network undergoes rigorous background checks, training in child development, first aid certification, and continuous education.
-
-আমাদের Baby Care সার্ভিস শিশুদের জন্য সম্পূর্ণ যত্ন প্রদান করে। আমাদের প্রতিটি caregiver প্রশিক্ষিত এবং যাচাইকৃত।
-
-Whether you need care for a few hours while you run errands, full-day care while you work, or overnight care for a well-deserved break, we have flexible options to meet your needs.`,
-		price: 500,
-		priceUnit: "hour",
-		image: "https://images.unsplash.com/photo-1555252333-9f8e92e65df9?w=800&h=600&fit=crop",
-		features: [
-			"Care for ages 0-5 years",
-			"Feeding and diaper changes",
-			"Age-appropriate play activities",
-			"Sleep monitoring and routines",
-			"Basic educational activities",
-			"Safety and hygiene protocols",
-		],
-		includes: [
-			"Background-verified caregivers",
-			"First aid trained professionals",
-			"Flexible scheduling",
-			"Real-time updates for parents",
-			"Emergency contact protocols",
-		],
-		faqs: [
-			{
-				question: "What ages do you provide care for?",
-				answer: "Our Baby Care service covers infants and toddlers from 0 to 5 years old.",
-			},
-			{
-				question: "Are your caregivers trained?",
-				answer: "Yes, all caregivers undergo comprehensive training including first aid, child development, and safety protocols.",
-			},
-			{
-				question: "Can I book for overnight care?",
-				answer: "Yes, we offer flexible scheduling including overnight care. Additional charges may apply for overnight bookings.",
-			},
-		],
-	};
 
 	return (
 		<div>
