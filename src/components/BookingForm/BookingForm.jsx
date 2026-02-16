@@ -107,7 +107,7 @@ const BookingForm = ({ service }) => {
 	const session = useSession();
 	const router = useRouter();
 	const areas = upazilas[district];
-	const { price } = service;
+	const { _id, price, title } = service;
 
 	// Price Calculation
 	const multiplier = durationType === "days" ? 8 : 1;
@@ -126,6 +126,8 @@ const BookingForm = ({ service }) => {
 			area,
 			phone,
 			address,
+			serviceTitle: title,
+			serviceId: _id,
 			totalCost,
 			customarName: session.data.user.name,
 			customarEmail: session.data.user.email,
@@ -139,8 +141,6 @@ const BookingForm = ({ service }) => {
 			});
 			router.push("/dashboard/my-bookings");
 		}
-
-		// router.push("/dashboard/my-bookings");
 	};
 	return (
 		<>
