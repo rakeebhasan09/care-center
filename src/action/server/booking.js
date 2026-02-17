@@ -1,6 +1,7 @@
 "use server";
 
 import { collections, dbConnect } from "@/lib/dbConnect";
+import { ObjectId } from "mongodb";
 
 // Post New Booking
 export const postBooking = async (bookingData) => {
@@ -27,4 +28,11 @@ export const bookingByUser = async (email) => {
 		})
 		.toArray();
 	return result;
+};
+
+// Delete Single Booking
+export const deleteSingleBooking = async (bookingId) => {
+	const query = { _id: new ObjectId(bookingId) };
+	const result = await dbConnect(collections.BOOKINGS).deleteOne(query);
+	return result.acknowledged;
 };

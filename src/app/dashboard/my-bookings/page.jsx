@@ -13,7 +13,6 @@ import {
 import { getServerSession } from "next-auth";
 import Link from "next/link";
 import React from "react";
-import Swal from "sweetalert2";
 
 const MyBookingPage = async () => {
 	const session = await getServerSession(authOptions);
@@ -25,7 +24,6 @@ const MyBookingPage = async () => {
 	return (
 		<section className="section-padding bg-[#FCFAF7] h-full">
 			<div className="container">
-				{userEmail}
 				<div className="mb-8">
 					<h1 className="text-3xl font-bold text-(--foreground) mb-2">
 						My Bookings
