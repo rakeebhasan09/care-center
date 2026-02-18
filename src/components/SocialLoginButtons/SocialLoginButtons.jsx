@@ -29,6 +29,11 @@ const SocialLoginButtons = () => {
 			});
 		}
 	};
+
+	// GitHub Login
+	const handleGitHubLogin = async () => {
+		setIsGitHubLoading(true);
+	};
 	return (
 		<div className="space-y-5">
 			{/* Google */}
@@ -69,7 +74,11 @@ const SocialLoginButtons = () => {
 			</button>
 
 			{/* GitHub */}
-			<button className="bg-black rounded text-white border-black w-full flex items-center justify-center py-2.5">
+			<button
+				onClick={handleGitHubLogin}
+				disabled={isGitHubLoading}
+				className="bg-black rounded text-white border-black w-full flex items-center justify-center py-2.5"
+			>
 				<svg
 					aria-label="GitHub logo"
 					width="24"
