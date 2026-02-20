@@ -2,6 +2,7 @@ import { loginUser } from "@/action/server/auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import { collections, dbConnect } from "./dbConnect";
+import GitHubProvider from "next-auth/providers/github";
 
 export const authOptions = {
 	// Configure one or more authentication providers
@@ -22,14 +23,19 @@ export const authOptions = {
 			clientId: process.env.GOOGLE_CLIENT_ID,
 			clientSecret: process.env.GOOGLE_CLIENT_SECRET,
 		}),
+		// GitHub Provider
+		GitHubProvider({
+			clientId: process.env.GITHUB_ID,
+			clientSecret: process.env.GITHUB_SECRET,
+		}),
 		// ...add more providers here
 	],
 	callbacks: {
-		async signIn({ user, account, profile, email, credentials }) {
-			console.log({ user, account, profile, email, credentials });
+		async signIn({ user, account }) {
 			const isExist = await dbConnect(collections.USERS).findOne({
 				email: user.email,
 			});
+
 			if (isExist) return true;
 
 			const newUser = {
@@ -47,16 +53,16 @@ export const authOptions = {
 			return result.acknowledged;
 		},
 
-		async session({ session, token, user }) {
+		async session({ session, token }) {
 			if (token) {
 				session.role = token?.role;
 				session.email = token?.email;
 			}
 			return session;
 		},
-		async jwt({ token, user, account, profile, isNewUser }) {
+		async jwt({ token, user, account }) {
 			if (user) {
-				if (account.provider === "google") {
+				if (account.provider !== "credentials") {
 					const dbUser = await dbConnect(collections.USERS).findOne({
 						email: user.email,
 					});

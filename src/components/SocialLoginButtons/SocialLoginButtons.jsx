@@ -10,6 +10,8 @@ const SocialLoginButtons = () => {
 	const params = useSearchParams();
 	const router = useRouter();
 	const callbackUrl = params.get("callbackUrl") || "/";
+
+	// Google Login
 	const handleGoogleLogin = async () => {
 		setIsGoogleLoading(true);
 		const result = await signIn("google", {
@@ -33,6 +35,22 @@ const SocialLoginButtons = () => {
 	// GitHub Login
 	const handleGitHubLogin = async () => {
 		setIsGitHubLoading(true);
+		const result = await signIn("github", {
+			callbackUrl: callbackUrl,
+		});
+		if (result.ok) {
+			Swal.fire({
+				icon: "success",
+				title: "Yah...",
+				text: "You are Logged In!",
+			});
+		} else {
+			Swal.fire({
+				icon: "error",
+				title: "Oops...",
+				text: "Credentials not matched!",
+			});
+		}
 	};
 	return (
 		<div className="space-y-5">
