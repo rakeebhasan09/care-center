@@ -6,7 +6,6 @@ import React from "react";
 
 const ServicesSection = async () => {
 	const services = (await getServices()) || [];
-	console.log(services);
 	return (
 		<section className="section-padding bg-[#FCFAF7]">
 			<div className="container">
